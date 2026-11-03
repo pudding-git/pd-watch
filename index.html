@@ -3,3 +3,870 @@ nova-watch/
 	images/
 		hero.jpg
 		logo.svg
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《螞蟻的聖母峰》| 原創小說旗艦特設頁</title>
+
+  <!-- 載入 Google Fonts：標題選用古典思源宋體，介面與英數選用現代無襯線 Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       1. 全域變數與基礎排版 (Cinematic Dark 墨黑電影風格)
+       結合極簡黑底旗艦感與東方朱砂印泥點綴
+       ========================================================= */
+    :root {
+      --bg-main: #050507;
+      --bg-surface: #0f1013;
+      --bg-surface-elevated: #18191f;
+      --text-primary: #f5f5f7;
+      --text-secondary: #86868b;
+      --accent: #c93b2b;              /* 旗艦朱砂紅 */
+      --accent-glow: rgba(201, 59, 43, 0.3);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --font-serif: "Noto Serif TC", serif;
+      --font-sans: "Inter", -apple-system, sans-serif;
+      --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================================================
+       2. 透明至毛玻璃導覽列 (Sticky Nav with Glassmorphism)
+       技巧：捲動超過 50px 由 JS 加入 .scrolled 切換模糊背景
+       ========================================================= */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      border-bottom: 1px solid transparent;
+      transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+    }
+
+    header.scrolled {
+      background-color: rgba(5, 5, 7, 0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom-color: var(--border-subtle);
+    }
+
+    nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      height: 54px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      font-family: var(--font-serif);
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.05rem;
+    }
+
+    .brand-stamp {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 2px 5px;
+      border-radius: 2px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 32px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+      transition: color 0.2s;
+    }
+
+    .nav-cta {
+      background: var(--text-primary);
+      color: var(--bg-main);
+      padding: 6px 16px;
+      border-radius: 980px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      opacity: 0.85;
+      transform: scale(1.02);
+    }
+
+    /* =========================================================
+       3. 首屏 Hero 區域 (Cinematic Fullscreen Hero)
+       全黑底、巨大字體層次、原創 SVG 孤峰光影
+       ========================================================= */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 60px;
+      background: radial-gradient(circle at 50% 60%, rgba(201, 59, 43, 0.15) 0%, rgba(5, 5, 7, 0) 70%);
+    }
+
+    .hero-badge {
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(48px, 9vw, 92px);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #ffffff 40%, #7d7d85 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-serif);
+      font-size: clamp(16px, 2.5vw, 22px);
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin: 0 auto 36px;
+      font-style: italic;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    .btn-primary {
+      background: var(--text-primary);
+      color: var(--bg-main);
+      padding: 13px 32px;
+      border-radius: 980px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.25s var(--ease-apple), box-shadow 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-secondary {
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s;
+    }
+
+    .btn-secondary:hover {
+      gap: 10px;
+    }
+
+    /* 原創 SVG 孤峰微光幾何視覺 */
+    .hero-visual {
+      width: 100%;
+      max-width: 440px;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
+    }
+
+    /* =========================================================
+       4. 必學核心技巧：Sticky 捲動敘事 (Apple-style Story)
+       外層大容器 (300vh)，內層用 sticky 固定於頂部 (100vh)
+       JS 依據捲動深度切換不同章節段落
+       ========================================================= */
+    .story-section {
+      height: 300vh;
+      position: relative;
+      background-color: var(--bg-main);
+    }
+
+    .story-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      overflow: hidden;
+    }
+
+    /* 捲動時同步變換光環大小與旋轉 */
+    .story-graphic {
+      width: 160px;
+      height: 160px;
+      margin-bottom: 40px;
+      transition: transform 0.1s linear;
+      will-change: transform;
+    }
+
+    .story-card-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 720px;
+      min-height: 160px;
+      text-align: center;
+    }
+
+    .story-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s var(--ease-apple), transform 0.6s var(--ease-apple);
+      pointer-events: none;
+    }
+
+    .story-card.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .story-label {
+      color: var(--accent);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .story-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    .story-desc {
+      color: var(--text-secondary);
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      line-height: 1.9;
+    }
+
+    /* =========================================================
+       5. 規格卡片網格 (Feature Bento Grid)
+       展示作品規格：出版尺寸、裝訂、字數、理念
+       ========================================================= */
+    .features {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 120px 24px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 300px;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .card-wide {
+      grid-column: span 2;
+    }
+
+    .card-label {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .card-text {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    /* =========================================================
+       6. 必學核心技巧：大數字統計列 (SpaceX/Tesla-style Stats)
+       滾入畫面時觸發 countUp 動畫
+       ========================================================= */
+    .stats-section {
+      background-color: #030304;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 90px 24px;
+    }
+
+    .stats-grid {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+
+    .stat-number-wrap {
+      font-size: clamp(48px, 6vw, 76px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 4px;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .stat-unit {
+      font-size: 1.4rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* =========================================================
+       7. 動態作品展櫃 (可由 JS 資料庫快速擴充新書)
+       ========================================================= */
+    .bookshelf-section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 100px 24px;
+    }
+
+    .bookshelf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .book-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 28px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .book-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* =========================================================
+       8. 呼籲行動與頁尾 (CTA & Footer)
+       ========================================================= */
+    .cta-section {
+      text-align: center;
+      padding: 140px 24px;
+      background: radial-gradient(circle at 50% 50%, rgba(201, 59, 43, 0.1) 0%, rgba(5, 5, 7, 0) 70%);
+    }
+
+    .cta-title {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 48px 24px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+
+    .disclaimer {
+      color: #636366;
+      font-size: 0.75rem;
+      margin-top: 12px;
+    }
+
+    /* =========================================================
+       9. 捲動淡入動效與無障礙宣告
+       ========================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s var(--ease-apple), transform 0.8s var(--ease-apple);
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 必備無障礙處理：使用者系統開啟減少動態時停用動畫 */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .story-card {
+        transition: none !important;
+      }
+    }
+
+    /* 手機寬度 (375px) 適配 */
+    @media (max-width: 860px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+      .card-wide {
+        grid-column: span 1;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================
+       導覽列：捲動超過 50px 動態加入毛玻璃效果
+       ========================================================= -->
+  <header id="navbar">
+    <nav aria-label="全站導覽">
+      <a href="#" class="brand-logo">
+        <span class="brand-stamp">原創</span>
+        <span>墨境文存</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#overview">作品核心</a></li>
+        <li><a href="#story">卷帙沉浸</a></li>
+        <li><a href="#specs">裝幀工藝</a></li>
+        <li><a href="#stats">創作紀錄</a></li>
+        <li><a href="#works">藏書系列</a></li>
+      </ul>
+
+      <a href="#order" class="nav-cta">典藏預購</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- =========================================================
+       Hero 首屏：大標題 + 一句副標 + 兩個 CTA + 滿版原創 SVG 幾何意象
+       ========================================================= -->
+    <section class="hero" id="overview">
+      <p class="hero-badge reveal">最新原創長篇小說</p>
+      <h1 class="hero-title reveal" id="heroTitle">螞蟻的聖母峰</h1>
+      <p class="hero-subtitle reveal" id="heroSubtitle">
+        「若天地只是一方冰冷巨石，那麼每一步微芒的攀爬，皆是不甘沉寂的宣告。」
+      </p>
+
+      <div class="hero-actions reveal">
+        <a href="#order" class="btn-primary">立即預購限定本</a>
+        <a href="#story" class="btn-secondary">深入卷帙章節 ›</a>
+      </div>
+
+      <!-- 原創 SVG 意象圖：冷峻雪峰與登攀光弧（符合不用外網照片之規定） -->
+      <div class="hero-visual reveal">
+        <svg viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="雪峰與孤獨攀登者抽象示意圖">
+          <path d="M200 40 L340 220 H60 L200 40Z" fill="url(#mountainGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+          <path d="M200 40 L260 220 H60 L200 40Z" fill="rgba(255,255,255,0.06)"/>
+          <!-- 象徵極微小生靈的光芒點 -->
+          <circle cx="200" cy="40" r="4" fill="#c93b2b" />
+          <circle cx="200" cy="40" r="10" stroke="#c93b2b" stroke-width="1.5" opacity="0.6"/>
+          <defs>
+            <linearGradient id="mountainGrad" x1="200" y1="40" x2="200" y2="220" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#24252e"/>
+              <stop offset="1" stop-color="#0a0a0d"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </section>
+
+    <!-- =========================================================
+       Sticky 捲動敘事 (Apple-style Scroll Story)
+       隨滾動進度切換不同故事幕次與意象縮放
+       ========================================================= -->
+    <section class="story-section" id="story">
+      <div class="story-stage">
+        <div class="story-graphic" id="storyGraphic">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" stroke="#24252e" stroke-width="3" />
+            <circle cx="50" cy="50" r="45" stroke="#c93b2b" stroke-width="3" stroke-dasharray="282" stroke-dashoffset="180" stroke-linecap="round" />
+            <polygon points="50,25 65,70 35,70" fill="rgba(201, 59, 43, 0.2)" stroke="#c93b2b" stroke-width="1.5" />
+          </svg>
+        </div>
+
+        <div class="story-card-wrap">
+          <!-- 幕次 1 -->
+          <div class="story-card active" data-step="0">
+            <p class="story-label">第一幕 • 殘粒</p>
+            <h2 class="story-heading">微塵般的起步</h2>
+            <p class="story-desc">在廣袤冰原的邊際，牠離開了溫暖的土穴。身後的同類低頭搬運穀屑，無人理解牠抬首凝視的雪線。</p>
+          </div>
+
+          <!-- 幕次 2 -->
+          <div class="story-card" data-step="1">
+            <p class="story-label">第二幕 • 風止之處</p>
+            <h2 class="story-heading">極限的拷問</h2>
+            <p class="story-desc">玄武岩晶粒冷酷如刃。每一次足爪的嵌合，都在對抗將身軀撕裂的暴風。攀爬不再為了生還，而是為了向崇山證明意志。</p>
+          </div>
+
+          <!-- 幕次 3 -->
+          <div class="story-card" data-step="2">
+            <p class="story-label">第三幕 • 天頂無聲</p>
+            <h2 class="story-heading">未至之巔</h2>
+            <p class="story-desc">終點早已無關登頂。當微小的生命在萬仞絕壁上留下足跡，這座冰冷的自然法則便已被鑿開裂痕。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+       規格卡片網格 (Bento Grid)
+       展示作品出版規格、裝訂考究與理念
+       ========================================================= -->
+    <section class="features" id="specs">
+      <div class="section-header reveal">
+        <h2 class="section-title">每個字句，皆如刻石成書。</h2>
+        <p style="color: var(--text-secondary); font-size: 1.1rem;">從哲理編排到裝幀選紙，極致追求閱讀純度。</p>
+      </div>
+
+      <div class="grid-container">
+        <article class="card card-wide reveal">
+          <div>
+            <p class="card-label">手作工藝</p>
+            <h3 class="card-title">純棉絮紙與手工穿線裝訂</h3>
+            <p class="card-text">選用 120g 柔光宣本紙，觸感溫潤不反光；每一冊皆由手工四目鎖線裝訂，確保書頁能 180 度完整攤平閱讀，長久保存不脫膠。</p>
+          </div>
+          <div style="height: 3px; width: 100%; background: linear-gradient(90deg, #c93b2b, transparent); margin-top: 24px;"></div>
+        </article>
+
+        <article class="card reveal">
+          <div>
+            <p class="card-label">限量編號</p>
+            <h3 class="card-title">首印 300 冊專屬藏書票</h3>
+            <p class="card-text">每冊扉頁均蓋有獨立朱印火漆與作者手書號碼，獨一無二。</p>
+          </div>
+          <div style="font-size: 2rem; text-align: right; opacity: 0.3;">✦</div>
+        </article>
+
+        <article class="card reveal">
+          <div>
+            <p class="card-label">電子特典</p>
+            <h3 class="card-title">全套數位無損排版</h3>
+            <p class="card-text">購書附贈 EPUB3 原生直排特調檔案，相容各式主流電子書閱讀器。</p>
+          </div>
+          <div style="font-size: 2rem; text-align: right; opacity: 0.3;">📑</div>
+        </article>
+
+        <article class="card card-wide reveal">
+          <div>
+            <p class="card-label">創作哲思</p>
+            <h3 class="card-title">「在無意義的世界裡，創造純粹的抵抗。」</h3>
+            <p class="card-text">融合存在主義哲思與冷靜筆觸，以寓言體裁解構現代人置身巨型社會體制下的迷茫與抗爭。</p>
+          </div>
+          <div style="height: 3px; width: 100%; background: linear-gradient(90deg, #86868b, transparent); margin-top: 24px;"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================================
+       大數字統計列 (SpaceX/Tesla 統計跳動動畫)
+       ========================================================= -->
+    <section class="stats-section" id="stats">
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <div class="stat-number-wrap">
+            <span class="count-up" data-target="180">0</span>
+            <span class="stat-unit">K</span>
+          </div>
+          <div class="stat-label">長篇全卷總字數</div>
+        </div>
+
+        <div class="stat-item reveal">
+          <div class="stat-number-wrap">
+            <span class="count-up" data-target="365">0</span>
+            <span class="stat-unit">days</span>
+          </div>
+          <div class="stat-label">深山隱居推敲時光</div>
+        </div>
+
+        <div class="stat-item reveal">
+          <div class="stat-number-wrap">
+            <span class="count-up" data-target="300">0</span>
+            <span class="stat-unit">vol</span>
+          </div>
+          <div class="stat-label">首刷限定典藏冊數</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+       藏書庫動態切換展台 (方便日後擴充)
+       ========================================================= -->
+    <section class="bookshelf-section" id="works">
+      <div class="section-header reveal">
+        <h2 class="section-title">系列藏書總覽</h2>
+        <p style="color: var(--text-secondary);">點擊卡片可將該作品置換為首屏展示</p>
+      </div>
+      <div class="bookshelf-grid" id="bookGrid"></div>
+    </section>
+
+    <!-- =========================================================
+       結尾行動號召 (CTA)
+       ========================================================= -->
+    <section class="cta-section" id="order">
+      <h2 class="cta-title reveal">一同見證微塵的攀爬。</h2>
+      <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 36px;" class="reveal">
+        《螞蟻的聖母峰》首批精裝手作本限量付梓中。敬邀同道入卷共讀。
+      </p>
+      <div class="reveal">
+        <a href="mailto:your-email@example.com?subject=【預購諮詢】《螞蟻的聖母峰》" class="btn-primary" style="padding: 16px 44px; font-size: 1.05rem;">
+          向工作室預定典藏本
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       頁尾 (嚴格遵守作業要求：註明虛構作品)
+       ========================================================= -->
+  <footer>
+    <p>Copyright © 2026 墨境文存工作室。版權所有。</p>
+    <p class="disclaimer">
+      本網站為課堂練習作品，品牌為虛構。所有作品與出版資訊僅供教學示範。
+    </p>
+  </footer>
+
+  <!-- =========================================================
+       核心 JavaScript (完整實作教學規範中的各項動態)
+       ========================================================= -->
+  <script>
+    /**
+     * 1. 書籍資料庫 (方便日後直接擴充，點選自動切換首屏)
+     */
+    const NOVEL_DATABASE = [
+      {
+        id: "ant-everest",
+        title: "螞蟻的聖母峰",
+        badge: "最新原創長篇小說",
+        tagline: "「若天地只是一方冰冷巨石，那麼每一步微芒的攀爬，皆是不甘沉寂的宣告。」",
+        words: 180,
+        days: 365,
+        copies: 300
+      },
+      {
+        id: "long-night",
+        title: "長夜之辨",
+        badge: "法理思辨中篇",
+        tagline: "「堂下三千策論，終不敵城頭一尺霜刃。」",
+        words: 95,
+        days: 180,
+        copies: 150
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 2. 導覽列滾動判斷：超過 50px 加入 .scrolled
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+      }, { passive: true });
+
+      // 3. IntersectionObserver：捲動淡入 (.reveal -> .show)
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+      // 4. 大數字跳動動畫 (countUp)
+      function countUp(el) {
+        const target = +el.dataset.target;
+        const dur = 1500;
+        const t0 = performance.now();
+        const tick = now => {
+          const k = Math.min(1, (now - t0) / dur);
+          el.textContent = Math.floor(target * (1 - Math.pow(1 - k, 3))); // ease-out
+          if (k < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+
+      const countObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            countUp(entry.target);
+            countObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+
+      document.querySelectorAll('.count-up').forEach(el => countObserver.observe(el));
+
+      // 5. Sticky 捲動敘事 (Apple 式計算進度切換幕次)
+      const storySection = document.querySelector('.story-section');
+      const storyCards = document.querySelectorAll('.story-card');
+      const storyGraphic = document.getElementById('storyGraphic');
+
+      if (storySection) {
+        window.addEventListener('scroll', () => {
+          const r = storySection.getBoundingClientRect();
+          const total = r.height - window.innerHeight;
+          if (total <= 0) return;
+
+          const progress = Math.min(1, Math.max(0, -r.top / total));
+
+          // 圖形微幅旋轉
+          if (storyGraphic) {
+            storyGraphic.style.transform = `scale(${1 + progress * 0.2}) rotate(${progress * 90}deg)`;
+          }
+
+          // 3 階段卡片切換
+          let idx = 0;
+          if (progress > 0.66) idx = 2;
+          else if (progress > 0.33) idx = 1;
+
+          storyCards.forEach((card, i) => {
+            card.classList.toggle('active', i === idx);
+          });
+        }, { passive: true });
+      }
+
+      // 6. 渲染作品庫卡片
+      const grid = document.getElementById('bookGrid');
+      if (grid) {
+        NOVEL_DATABASE.forEach(book => {
+          const item = document.createElement('div');
+          item.className = 'book-card';
+          item.innerHTML = `
+            <p style="color:var(--accent); font-size:0.8rem; margin-bottom:8px;">${book.badge}</p>
+            <h3 style="font-family:var(--font-serif); font-size:1.3rem; margin-bottom:8px;">${book.title}</h3>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">${book.tagline}</p>
+          `;
+          item.addEventListener('click', () => {
+            document.getElementById('heroTitle').textContent = book.title;
+            document.getElementById('heroSubtitle').textContent = book.tagline;
+            document.getElementById('overview').scrollIntoView({ behavior: 'smooth' });
+          });
+          grid.appendChild(item);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
